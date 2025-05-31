@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rock Paper Scissors</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    img {
+      width: 100px;
+      height: 100px;
+      margin: 10px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    img:hover {
+      transform: scale(1.1);
+    }
+    .result, .choices, .scoreboard {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+    .scoreboard {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 30px;
+    }
+    .score {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 10px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      background-color: #007BFF;
+      color: white;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Rock Paper Scissors Game</h1>
+
+  <div>
+    <img src="https://img.icons8.com/emoji/96/rock-emoji.png" alt="Rock" onclick="playGame('rock')">
+    <img src="https://img.icons8.com/emoji/96/page-facing-up.png" alt="Paper" onclick="playGame('paper')">
+    <img src="https://img.icons8.com/emoji/96/scissors-emoji.png" alt="Scissors" onclick="playGame('scissor')">
+
+  </div>
+
+  <div class="choices" id="choices"></div>
+  <div class="result" id="result"></div>
+
+  <div class="scoreboard">
+    <div class="score">You: <span id="player-score">0</span></div>
+    <div class="score">Computer: <span id="computer-score">0</span></div>
+  </div>
+
+  <button onclick="resetGame()">Reset Game</button>
+
+  <script>
+    let playerScore = 0;
+    let computerScore = 0;
+
+    function playGame(playerMove) {
+      const computerMove = getComputerMove();
+      let result = '';
+
+      if (playerMove === computerMove) {
+        result = "It's a Tie!";
+      } else if (
+        (playerMove === 'rock' && computerMove === 'scissor') ||
+        (playerMove === 'paper' && computerMove === 'rock') ||
+        (playerMove === 'scissor' && computerMove === 'paper')
+      ) {
+        result = "You Win!";
+        playerScore++;
+      } else {
+        result = "You Lose!";
+        computerScore++;
+      }
+
+      document.getElementById('choices').innerHTML = `
+        You picked <img src="${getImage(playerMove)}" alt="${playerMove}"> 
+        Computer picked <img src="${getImage(computerMove)}" alt="${computerMove}">
+      `;
+
+      document.getElementById('result').textContent = result;
+      document.getElementById('player-score').textContent = playerScore;
+      document.getElementById('computer-score').textContent = computerScore;
+    }
+
+    function getComputerMove() {
+      const moves = ['rock', 'paper', 'scissor'];
+      return moves[Math.floor(Math.random() * 3)];
+    }
+
+    function getImage(move) {
+        if (move === 'rock') return 'https://img.icons8.com/emoji/96/rock-emoji.png';
+        if (move === 'paper') return 'https://img.icons8.com/emoji/96/page-facing-up.png';
+        if (move === 'scissor') return 'https://img.icons8.com/emoji/96/scissors-emoji.png';
+    }
+
+
+    function resetGame() {
+      playerScore = 0;
+      computerScore = 0;
+      document.getElementById('player-score').textContent = playerScore;
+      document.getElementById('computer-score').textContent = computerScore;
+      document.getElementById('result').textContent = '';
+      document.getElementById('choices').innerHTML = '';
+    }
+  </script>
+
+</body>
+</html>
